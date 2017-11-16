@@ -52,7 +52,6 @@ function start() {
 function buy(id, quantity) {
 	connection.query("SELECT stock_quantity FROM products WHERE item_id=?", id, function(error, results, fields) {
 		if (error) throw error;
-		console.log(results[0].stock_quantity);
 		var newQuantity = results[0].stock_quantity - quantity;
 		if (results[0].stock_quantity >= quantity) {
 			connection.query("UPDATE products SET ? WHERE ?",

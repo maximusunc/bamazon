@@ -60,12 +60,12 @@ function low() {
 	connection.query("SELECT * FROM products WHERE stock_quantity<=5", function(error, results, fields) {
 		if (error) throw error;
 		var table = new Table({
-		    head: ['product_id', 'product_name', 'price'],
-			colWidths: [15, 15, 15]
+		    head: ['product_id', 'product_name', 'stock_quantity'],
+			colWidths: [15, 15, 20]
 		});
 		for (var i = 0; i < results.length; i++) {
 			table.push(
-			    [results[i].item_id, results[i].product_name, results[i].price]
+			    [results[i].item_id, results[i].product_name, results[i].stock_quantity]
 			);
 		};
 		console.log(table.toString());
@@ -77,12 +77,12 @@ function inventory() {
 	connection.query("SELECT * FROM products", function(error, results, fields) {
 		if (error) throw error;
 		var table = new Table({
-		    head: ['product_id', 'product_name', 'price'],
-			colWidths: [15, 15, 15]
+		    head: ['product_id', 'product_name', 'stock_quantity'],
+			colWidths: [15, 15, 20]
 		});
 		for (var i = 0; i < results.length; i++) {
 			table.push(
-			    [results[i].item_id, results[i].product_name, results[i].price]
+			    [results[i].item_id, results[i].product_name, results[i].stock_quantity]
 			);
 		};
 		console.log(table.toString());
