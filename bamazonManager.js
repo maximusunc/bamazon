@@ -1,5 +1,6 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
+var Table = require("cli-table");
 
 var connection = mysql.createConnection({
 	host: "localhost",
@@ -41,13 +42,16 @@ function start() {
 function sale() {
 	connection.query("SELECT * FROM products", function(error, results, fields) {
 		if (error) throw error;
-		console.log("-------|----------|--------|--------");
-		console.log("product_id | product_name | price | quantity");
-		console.log("-------|----------|--------|--------");
+		var table = new Table({
+		    head: ['product_id', 'product_name', 'price'],
+			colWidths: [15, 15, 15]
+		});
 		for (var i = 0; i < results.length; i++) {
-			console.log(results[i].item_id + " | " + results[i].product_name + " | " + results[i].price + " | " + results[i].stock_quantity);
-			console.log("-------|----------|--------|--------");
+			table.push(
+			    [results[i].item_id, results[i].product_name, results[i].price]
+			);
 		};
+		console.log(table.toString());
 		reStart();
 	});
 };
@@ -55,13 +59,16 @@ function sale() {
 function low() {
 	connection.query("SELECT * FROM products WHERE stock_quantity<=5", function(error, results, fields) {
 		if (error) throw error;
-		console.log("-------|----------|--------|--------");
-		console.log("product_id | product_name | price | quantity");
-		console.log("-------|----------|--------|--------");
+		var table = new Table({
+		    head: ['product_id', 'product_name', 'price'],
+			colWidths: [15, 15, 15]
+		});
 		for (var i = 0; i < results.length; i++) {
-			console.log(results[i].item_id + " | " + results[i].product_name + " | " + results[i].price + " | " + results[i].stock_quantity);
-			console.log("-------|----------|--------|--------");
+			table.push(
+			    [results[i].item_id, results[i].product_name, results[i].price]
+			);
 		};
+		console.log(table.toString());
 		reStart();
 	});
 };
@@ -69,13 +76,16 @@ function low() {
 function inventory() {
 	connection.query("SELECT * FROM products", function(error, results, fields) {
 		if (error) throw error;
-		console.log("-------|----------|--------|--------");
-		console.log("product_id | product_name | price | quantity");
-		console.log("-------|----------|--------|--------");
+		var table = new Table({
+		    head: ['product_id', 'product_name', 'price'],
+			colWidths: [15, 15, 15]
+		});
 		for (var i = 0; i < results.length; i++) {
-			console.log(results[i].item_id + " | " + results[i].product_name + " | " + results[i].price + " | " + results[i].stock_quantity);
-			console.log("-------|----------|--------|--------");
+			table.push(
+			    [results[i].item_id, results[i].product_name, results[i].price]
+			);
 		};
+		console.log(table.toString());
 		inquirer.prompt([
 		{
 			type: "input",

@@ -1,5 +1,6 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
+var Table = require("cli-table");
 
 var connection = mysql.createConnection({
 	host: "localhost",
@@ -17,13 +18,16 @@ connection.connect(function(err) {
 function start() {
 	connection.query("SELECT * FROM products", function(error, results, fields) {
 		if (error) throw error;
-		console.log("-------|----------|---------");
-		console.log("product_id | product_name | price");
-		console.log("-------|----------|---------");
+		var table = new Table({
+		    head: ['product_id', 'product_name', 'price'],
+			colWidths: [15, 15, 15]
+		});
 		for (var i = 0; i < results.length; i++) {
-			console.log(results[i].item_id + " | " + results[i].product_name + " | " + results[i].price);
-			console.log("-------|----------|---------");
+			table.push(
+			    [results[i].item_id, results[i].product_name, results[i].price]
+			);
 		};
+		console.log(table.toString());
 		inquirer.prompt([
 		{
 			type: "input",
@@ -62,7 +66,7 @@ function buy(id, quantity) {
 					order(id, quantity);
 				});
 		} else {
-			console.log("Not enough!");
+			console.log("Insufficient Quantity!");
 			nextOrder();
 		};
 	});
